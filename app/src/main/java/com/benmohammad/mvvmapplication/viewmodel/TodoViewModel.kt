@@ -15,7 +15,7 @@ class TodoViewModel(application: Application): AndroidViewModel(application) {
         repository.saveTodoItem(todoItem)
     }
 
-    fun saveTodItems(todoItems: List<TodoItem>) {
+    fun saveTodoItems(todoItems: List<TodoItem>) {
         repository.saveTodoItems(todoItems)
     }
 
