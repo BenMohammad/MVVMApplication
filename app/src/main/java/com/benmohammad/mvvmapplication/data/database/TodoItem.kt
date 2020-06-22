@@ -1,4 +1,4 @@
-package com.benmohammad.mvvmapplication.data
+package com.benmohammad.mvvmapplication.data.database
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -13,4 +13,4 @@ data class TodoItem(@PrimaryKey(autoGenerate = true) val id: Long?,
                     @ColumnInfo(name = "description") val description: String?,
                     @ColumnInfo(name = "tags") val tags: String?,
                     @ColumnInfo(name = "due") val dueTime: Long?,
-                    @ColumnInfo(name = "completed") val completed: Boolean): Parcelable
+                    @ColumnInfo(name = "completed") var completed: Boolean): Parcelable
