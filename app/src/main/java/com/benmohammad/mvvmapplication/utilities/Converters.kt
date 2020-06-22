@@ -8,7 +8,7 @@ fun dateToMillis(day: Int, month: Int, year: Int, minute: Int, hour: Int): Long 
     return calendar.timeInMillis
 }
 
-fun covertMillis(timeInMilliSeconds: Long): List<Int> {
+fun convertMillis(timeInMilliSeconds: Long): List<Int> {
     val dateValues = arrayListOf<Int>()
     val date = Date(timeInMilliSeconds)
     val calendar = Calendar.getInstance()
