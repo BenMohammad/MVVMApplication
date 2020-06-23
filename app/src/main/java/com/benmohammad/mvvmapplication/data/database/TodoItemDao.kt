@@ -2,7 +2,6 @@ package com.benmohammad.mvvmapplication.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.benmohammad.mvvmapplication.data.database.TodoItem
 
 @Dao
 interface TodoItemDao {

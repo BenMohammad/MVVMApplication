@@ -84,25 +84,26 @@ import java.util.*
 
             if(todoItem.completed) {
                 itemView.tv_item_title.apply{
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG
                 }
                 itemView.tv_item_due_date.apply {
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG
 
                 }
                 itemView.tv_due_date.apply {
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG
 
                 }
             } else {
                 itemView.tv_item_title.apply{
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                }
+
+                itemView.tv_item_due_date.apply{
+                    paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
                 itemView.tv_due_date.apply {
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                }
-                itemView.tv_item_due_date.apply{
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
             }
             if(todoItem.dueTime!!.toInt() != 0) {
@@ -133,7 +134,7 @@ import java.util.*
                 itemView.tv_item_due_date.text = displayFormat
             } else {
                 itemView.tv_item_due_date.text =
-                    itemView.context.getString(R.string.no_due_is_set)
+                        itemView.context.getString(R.string.no_due_is_set)
             }
 
             itemView.setOnClickListener{

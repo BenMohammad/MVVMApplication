@@ -47,7 +47,7 @@ fun stringToAscii(title: String): Int {
     var ascii = 0
 
     for(item in title) {
-        ascii +=item.toInt()
+        ascii += item.toInt()
     }
     return ascii
 }

@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
                 }
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
 
@@ -253,7 +252,7 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
                 dialog!!.button_complete_todo_item.text = getString(R.string.mark_as_complete)
             }
             onCheckClicked(todoItem)
-            dialog!!.dismiss()
+
         }
 
         dialog!!.button_edit_todo_item.setOnClickListener {

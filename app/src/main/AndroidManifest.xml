@@ -19,6 +19,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AddEditTodoItemActivity"/>
+        <receiver
+            android:name=".notification.AlarmReceiver"
+            android:enabled="true" />
+
+        <service
+            android:name=".notification.NotificationService"
+            android:enabled="true" />
     </application>
 
 </manifest>
