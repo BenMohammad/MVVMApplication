@@ -40,7 +40,7 @@ import java.util.*
                 filteredTodoItemList = if (charString.isEmpty()) {
                     todoItemList
                 } else {
-                    val filteredlist = arrayListOf<TodoItem>()
+                    val filteredList = arrayListOf<TodoItem>()
                     for (item in todoItemList) {
                         if (item.description?.toLowerCase(Locale.getDefault())!!.contains(
                                 charString.toLowerCase(
@@ -60,11 +60,11 @@ import java.util.*
                                 )
                             )
                         ) {
-                            filteredlist.add(item)
+                            filteredList.add(item)
                         }
 
                     }
-                    filteredlist
+                    filteredList
                 }
                 val filteredResults = FilterResults()
                 filteredResults.values = filteredTodoItemList
