@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
             }
         })
         fab_add_item.setOnClickListener {
-            //clearSearchView()
+            clearSearchView()
             val intent = Intent(this@MainActivity, AddEditTodoItemActivity::class.java)
             startActivityForResult(intent, Constants.INTENT_CREATE_TODO_ITEM)
         }
@@ -88,7 +88,6 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {
             val todoItem = data?.getParcelableExtra<TodoItem>(Constants.KEY_INTENT)!!
             when(requestCode) {
@@ -104,6 +103,7 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
                 }
             }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 
@@ -183,8 +183,6 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
             )
         }
         todoViewModel.saveTodoItems(todoList)
-
-
     }
 
     private fun clearSearchView() {
@@ -210,7 +208,7 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setCancelable(true)
         dialog!!.setContentView(R.layout.todo_item_display_details_dialog)
-        dialog!!.tv_todo_title.text = todoItem.title
+        dialog!!.tv_todo_title_content.text  = todoItem.title
         dialog!!.tv_todo_description_content.text = todoItem.description
         dialog!!.tv_todo_tags_content.text = todoItem.tags
 
@@ -257,7 +255,7 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
             onCheckClicked(todoItem)
         }
 
-        dialog!!.button_complete_todo_item.setOnClickListener {
+        dialog!!.button_edit_todo_item.setOnClickListener {
             NotificationUtils().cancelNotification(todoItem, this)
             val intent = Intent(this@MainActivity, AddEditTodoItemActivity::class.java)
             intent.putExtra(Constants.KEY_INTENT, todoItem)
@@ -273,6 +271,7 @@ class MainActivity : AppCompatActivity(), TodoListAdapter.TodoItemClickListener 
         } else if(todoItem.completed && todoItem.dueTime!! > 0 && System.currentTimeMillis() < todoItem.dueTime) {
             NotificationUtils().setNotification(todoItem, this)
         }
+        todoViewModel.toggleCompleteState(todoItem)
     }
 
     private fun hideEmptyTaskListImage() {

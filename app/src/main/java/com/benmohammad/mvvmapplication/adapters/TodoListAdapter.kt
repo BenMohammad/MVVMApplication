@@ -14,7 +14,7 @@ import com.benmohammad.mvvmapplication.utilities.convertNumberToMonthName
 import kotlinx.android.synthetic.main.item_todo_list.view.*
 import java.util.*
 
-class TodoListAdapter(todoItemClickListener: TodoItemClickListener): RecyclerView.Adapter<TodoListAdapter.ViewHolder>(), Filterable {
+    class TodoListAdapter(todoItemClickListener: TodoItemClickListener): RecyclerView.Adapter<TodoListAdapter.ViewHolder>(), Filterable {
 
     private var todoItemList: List<TodoItem> = arrayListOf()
     private var filteredTodoItemList: List<TodoItem> = arrayListOf()
@@ -86,20 +86,22 @@ class TodoListAdapter(todoItemClickListener: TodoItemClickListener): RecyclerVie
                 itemView.tv_item_title.apply{
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
-                itemView.tv_due_date.apply {
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                }
                 itemView.tv_item_due_date.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+                }
+                itemView.tv_due_date.apply {
+                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
                 }
             } else {
                 itemView.tv_item_title.apply{
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
-                itemView.tv_item_due_date.apply{
+                itemView.tv_due_date.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
-                itemView.tv_due_date.apply {
+                itemView.tv_item_due_date.apply{
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
             }
@@ -138,11 +140,11 @@ class TodoListAdapter(todoItemClickListener: TodoItemClickListener): RecyclerVie
                 listener.onItemClicked(todoItem)
             }
 
-            itemView.setOnClickListener {
+            itemView.checkbox_item.setOnClickListener {
                 listener.onCheckClicked(todoItem)
             }
 
-            itemView.setOnClickListener {
+            itemView.iv_delete_item.setOnClickListener {
                 listener.onDeleteClicked(todoItem)
             }
         }

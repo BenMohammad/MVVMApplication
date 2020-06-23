@@ -1,10 +1,13 @@
 package com.benmohammad.mvvmapplication.ui
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.benmohammad.mvvmapplication.R
@@ -12,6 +15,7 @@ import com.benmohammad.mvvmapplication.data.database.TodoItem
 import com.benmohammad.mvvmapplication.notification.NotificationUtils
 import com.benmohammad.mvvmapplication.utilities.Constants
 import com.benmohammad.mvvmapplication.utilities.convertMillis
+import com.benmohammad.mvvmapplication.utilities.convertNumberToMonthName
 import com.benmohammad.mvvmapplication.utilities.dateToMillis
 import kotlinx.android.synthetic.main.activity_add_edit_todo_item.*
 import java.util.*
@@ -96,7 +100,7 @@ class AddEditTodoItemActivity: AppCompatActivity() {
 
             val intent = Intent()
             intent.putExtra(Constants.KEY_INTENT, todo)
-            setResult(Activity.RESULT_OK)
+            setResult(Activity.RESULT_OK, intent)
             if(todo.dueTime!!  > 0) {
                 NotificationUtils().setNotification(todo, this)
             }
@@ -119,10 +123,10 @@ class AddEditTodoItemActivity: AppCompatActivity() {
         }
         if(et_todo_tags.text.isEmpty()) {
             til_todo_tags.error = "Please provide at least one tag"
-            til_todo_tags.requestFocus()
+            et_todo_tags.requestFocus()
             return false
         }
-        Toast.makeText(this, "This isa saved successfully", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "This is saved successfully", Toast.LENGTH_SHORT).show()
         return true
     }
 
@@ -144,9 +148,76 @@ class AddEditTodoItemActivity: AppCompatActivity() {
             dueDate = dateToMillis(mDueDay, mDueMonth, mDueYear, mDueMinute, mDueHour)
         }
     }
-    private fun showDatePickerDialog() {}
+    private fun showDatePickerDialog() {
+        mDueDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        mDueMonth = Calendar.getInstance().get(Calendar.MONTH)
+        mDueYear = Calendar.getInstance().get(Calendar.YEAR)
 
-    private fun showTimePickerDialog() {}
+        val datePickerDialog = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener{
+                _, year, monthOfYear, dayOfMonth ->
 
-    private fun fillUIWithItemData(todoItem: TodoItem) {}
+                tv_todo_due_date.text =
+                    ("""Due Date: ${ convertNumberToMonthName(monthOfYear)} $dayOfMonth $year""")
+
+                mDueDay = dayOfMonth
+                mDueMonth = monthOfYear
+                mDueYear = year
+                dateSelected = true
+            },
+            mDueYear,
+            mDueMonth,
+            mDueDay
+        )
+        datePickerDialog.show()
+    }
+
+    private fun showTimePickerDialog() {
+        mDueHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        mDueMinute = Calendar.getInstance().get(Calendar.MINUTE)
+
+        val timePickerDialog =
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                mDueHour = hourOfDay
+                mDueMinute = minute
+
+                val displayFormat: String = if(mDueMonth < 10 && mDueHour < 10) {
+                    """Due time : 0$hourOfDay : 0$mDueMinute"""
+                }  else {
+                    if(mDueMinute> 10) {
+                        """Due time : $hourOfDay : $mDueMinute"""
+                    } else {
+                        """Due time : $hourOfDay : 0$mDueMinute"""
+                    }
+                }
+                tv_todo_due_time.text = displayFormat
+                timeSelected = true
+            }, mDueHour, mDueMinute, true)
+        timePickerDialog.show()
+    }
+
+    private fun fillUIWithItemData(todoItem: TodoItem) {
+        et_todo_title.setText(todoItem.title, TextView.BufferType.EDITABLE)
+        et_todo_description.setText(todoItem.description, TextView.BufferType.EDITABLE)
+        et_todo_tags.setText(todoItem.tags, TextView.BufferType.EDITABLE)
+
+        if(todoItem.dueTime!!.toInt() != 0) {
+            val dateValues = convertMillis(todoItem.dueTime)
+            val dueMonth = convertNumberToMonthName(dateValues[1])
+            val dueYear = dateValues[2].toString()
+            val dueHour = if(dateValues[3] < 10) {
+                "0${dateValues[3]}"
+            } else {
+                "${dateValues[3]}"
+            }
+
+            val dueMinute = if(dateValues[4] < 10) {
+                "0${dateValues[4]}"
+            } else {
+                "${dateValues[4]}"
+            }
+            tv_todo_due_date.text = """${dueMonth} ${dateValues[0]} ${dueYear}"""
+            tv_todo_due_time.text = """${dueHour} ${dueMinute}"""
+        }    }
 }
